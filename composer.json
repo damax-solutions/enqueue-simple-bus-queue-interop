@@ -1,0 +1,36 @@
+{
+  "name": "damax/simple-bus-enqueue-bridge-bundle",
+  "type": "symfony-bundle",
+  "description": "SimpleBus integration with Enqueue library.",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": { "Damax\\Bundle\\SimpleBusEnqueueBridgeBundle\\": "" }
+  },
+  "require": {
+    "php": "^7.1",
+    "enqueue/enqueue-bundle": "^0.8.32",
+    "simple-bus/asynchronous-bundle": "^3.0"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^2.12",
+    "matthiasnoback/symfony-dependency-injection-test": "^3.0",
+    "php-coveralls/php-coveralls": "^2.1",
+    "symfony/framework-bundle": "^4.1",
+    "symfony/phpunit-bridge": "^4.1"
+  },
+  "scripts": {
+    "cs": "php-cs-fixer fix",
+    "test": "simple-phpunit",
+    "test-cc": "./bin/phpunit-coverage",
+    "test-ci": "simple-phpunit --coverage-clover=build/logs/clover.xml",
+    "test-publish": "php-coveralls"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev"
+    }
+  }
+}
