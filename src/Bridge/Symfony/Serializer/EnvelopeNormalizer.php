@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Enqueue\SimpleBus\Bridge\Symfony\Serializer;
 
 use SimpleBus\Serialization\Envelope\DefaultEnvelope;
+use SimpleBus\Serialization\Envelope\Envelope;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
@@ -25,11 +26,11 @@ class EnvelopeNormalizer implements NormalizerInterface, DenormalizerInterface
 
     public function supportsNormalization($data, $format = null): bool
     {
-        return $data instanceof DefaultEnvelope;
+        return $data instanceof Envelope;
     }
 
     public function supportsDenormalization($data, $type, $format = null): bool
     {
-        return DefaultEnvelope::class === $type;
+        return is_a($type, Envelope::class, true);
     }
 }
