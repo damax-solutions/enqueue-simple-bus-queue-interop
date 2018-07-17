@@ -7,11 +7,13 @@
 
         <defaults autowire="true" public="false" />
 
+        <!-- Serialization -->
+
         <service id="Enqueue\SimpleBus\Bridge\Symfony\Serializer\EnvelopeNormalizer">
             <tag name="serializer.normalizer" />
         </service>
 
-        <service id="SimpleBus\Serialization\ObjectSerializer" class="Enqueue\SimpleBus\Bridge\Symfony\Serializer" />
+        <service id="SimpleBus\Serialization\ObjectSerializer" class="Enqueue\SimpleBus\Bridge\Symfony\Serializer\ObjectSerializer" />
 
         <service id="SimpleBus\Serialization\Envelope\Serializer\MessageInEnvelopeSerializer" alias="simple_bus.asynchronous.message_serializer" />
 

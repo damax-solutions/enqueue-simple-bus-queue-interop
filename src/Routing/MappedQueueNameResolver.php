@@ -11,7 +11,7 @@ final class MappedQueueNameResolver implements RoutingKeyResolver
     private $map;
     private $default;
 
-    public function __construct($map, string $default)
+    public function __construct(array $map, string $default)
     {
         $this->map = $map;
         $this->default = $default;

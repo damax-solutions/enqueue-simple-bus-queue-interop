@@ -13,6 +13,8 @@ class EnvelopeNormalizer implements NormalizerInterface, DenormalizerInterface
 {
     public function normalize($object, $format = null, array $context = [])
     {
+        /* @var Envelope $object */
+
         return [
             'type' => $object->messageType(),
             'message' => $object->serializedMessage(),

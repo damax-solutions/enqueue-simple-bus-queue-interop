@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Enqueue\SimpleBus\Bridge\Symfony\Bundle\DependencyInjection;
 
+use Enqueue\SimpleBus\Routing\FixedQueueNameResolver;
+use Enqueue\SimpleBus\Routing\MappedQueueNameResolver;
 use LogicException;
 use SimpleBus\Serialization\ObjectSerializer;
 use Symfony\Component\Config\FileLocator;
@@ -27,17 +29,39 @@ class EnqueueSimpleBusExtension extends ConfigurableExtension implements Prepend
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');
+
+        $this->configureQueueResolver(Configuration::TYPE_EVENTS, $config['events'], $container);
     }
 
     /**
      * @throws LogicException
      */
-    private function requireBundle($bundleName, ContainerBuilder $container)
+    private function requireBundle(string $bundleName, ContainerBuilder $container)
     {
         $bundles = $container->getParameter('kernel.bundles');
 
         if (!isset($bundles[$bundleName])) {
-            throw new LogicException(sprintf('You need to enable "%s" as well', $bundleName));
+            throw new LogicException(sprintf('You need to enable "%s".', $bundleName));
         }
+    }
+
+    private function configureQueueResolver(string $type, array $config, ContainerBuilder $container): self
+    {
+        $queueResolver = sprintf('enqueue.simple_bus.%s_queue_resolver', $type);
+
+        if (count($config['queue_map'])) {
+            $container
+                ->register($queueResolver, MappedQueueNameResolver::class)
+                ->addArgument($config['queue_map'])
+                ->addArgument($config['default_queue'])
+            ;
+        } else {
+            $container
+                ->register($queueResolver, FixedQueueNameResolver::class)
+                ->addArgument($config['default_queue'])
+            ;
+        }
+
+        return $this;
     }
 }

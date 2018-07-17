@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Enqueue\SimpleBus\Bridge\Symfony\Serializer;
 
-use SimpleBus\Serialization\ObjectSerializer as Serializer;
+use SimpleBus\Serialization\ObjectSerializer as ObjectSerializerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class ObjectSerializer implements Serializer
+class ObjectSerializer implements ObjectSerializerInterface
 {
     private const FORMAT = 'json';
 

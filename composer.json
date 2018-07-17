@@ -19,8 +19,10 @@
     "friendsofphp/php-cs-fixer": "^2.12",
     "matthiasnoback/symfony-dependency-injection-test": "^3.0",
     "php-coveralls/php-coveralls": "^2.1",
+    "simple-bus/asynchronous-bundle": "^3.0",
     "symfony/framework-bundle": "^4.1",
-    "symfony/phpunit-bridge": "^4.1"
+    "symfony/phpunit-bridge": "^4.1",
+    "symfony/serializer": "^4.1"
   },
   "scripts": {
     "cs": "php-cs-fixer fix",
