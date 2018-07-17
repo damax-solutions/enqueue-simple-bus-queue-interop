@@ -29,14 +29,18 @@ class Configuration implements ConfigurationInterface
     private function messagesNode(string $type): ArrayNodeDefinition
     {
         return (new ArrayNodeDefinition($type))
-            ->addDefaultsIfNotSet()
             ->beforeNormalization()
                 ->ifString()
                 ->then(function (string $config): array {
-                    return ['default_queue' => $config];
+                    return ['default_queue' => $config, 'enabled' => true];
                 })
             ->end()
+            ->canBeEnabled()
             ->children()
+                ->scalarNode('transport_name')
+                    ->cannotBeEmpty()
+                    ->defaultValue('default')
+                ->end()
                 ->scalarNode('default_queue')
                     ->cannotBeEmpty()
                     ->defaultValue(sprintf('asynchronous_%s', $type))

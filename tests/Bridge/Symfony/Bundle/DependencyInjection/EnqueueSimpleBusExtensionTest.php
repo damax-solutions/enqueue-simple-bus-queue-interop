@@ -9,10 +9,12 @@ use Enqueue\SimpleBus\Bridge\Symfony\Serializer\EnvelopeNormalizer;
 use Enqueue\SimpleBus\Bridge\Symfony\Serializer\ObjectSerializer as SymfonyObjectSerializer;
 use Enqueue\SimpleBus\Routing\FixedQueueNameResolver;
 use Enqueue\SimpleBus\Routing\MappedQueueNameResolver;
+use Enqueue\SimpleBus\SimpleBusPublisher;
 use LogicException;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use SimpleBus\Serialization\Envelope\Serializer\MessageInEnvelopeSerializer;
 use SimpleBus\Serialization\ObjectSerializer;
+use Symfony\Component\DependencyInjection\Reference;
 
 class EnqueueSimpleBusExtensionTest extends AbstractExtensionTestCase
 {
@@ -49,6 +51,21 @@ class EnqueueSimpleBusExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasAlias(MessageInEnvelopeSerializer::class, 'simple_bus.asynchronous.message_serializer');
         $this->assertContainerBuilderHasService(EnvelopeNormalizer::class);
         $this->assertContainerBuilderHasServiceDefinitionWithTag(EnvelopeNormalizer::class, 'serializer.normalizer');
+    }
+
+    /**
+     * @test
+     */
+    public function it_registers_publisher_for_events()
+    {
+        $this->load([
+            'events' => null,
+        ]);
+
+        $this->assertContainerBuilderHasService('enqueue.simple_bus.events_publisher', SimpleBusPublisher::class);
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument('enqueue.simple_bus.events_publisher', 0, new Reference(MessageInEnvelopeSerializer::class));
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument('enqueue.simple_bus.events_publisher', 1, new Reference('enqueue.simple_bus.events_queue_resolver'));
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument('enqueue.simple_bus.events_publisher', 2, new Reference('enqueue.transport.default.context'));
     }
 
     /**

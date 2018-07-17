@@ -22,6 +22,8 @@ class ConfigurationTest extends TestCase
 
         $this->assertProcessedConfigurationEquals([$config], [
             'events' => [
+                'enabled' => false,
+                'transport_name' => 'default',
                 'default_queue' => 'asynchronous_events',
                 'queue_map' => [],
             ],
@@ -39,6 +41,8 @@ class ConfigurationTest extends TestCase
 
         $this->assertProcessedConfigurationEquals([$config], [
             'events' => [
+                'enabled' => true,
+                'transport_name' => 'default',
                 'default_queue' => 'domain_events',
                 'queue_map' => [],
             ],
@@ -61,11 +65,34 @@ class ConfigurationTest extends TestCase
 
         $this->assertProcessedConfigurationEquals([$config], [
             'events' => [
+                'enabled' => true,
+                'transport_name' => 'default',
                 'default_queue' => 'asynchronous_events',
                 'queue_map' => [
                     'FooClass' => 'foo',
                     'BooClass' => 'boo',
                 ],
+            ],
+        ], 'events');
+    }
+
+    /**
+     * @test
+     */
+    public function it_configures_events_transport_name()
+    {
+        $config = [
+            'events' => [
+                'transport_name' => 'redis',
+            ],
+        ];
+
+        $this->assertProcessedConfigurationEquals([$config], [
+            'events' => [
+                'enabled' => true,
+                'transport_name' => 'redis',
+                'default_queue' => 'asynchronous_events',
+                'queue_map' => [],
             ],
         ], 'events');
     }
