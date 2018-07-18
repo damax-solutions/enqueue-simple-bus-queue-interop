@@ -7,6 +7,7 @@ namespace Enqueue\SimpleBus\Tests\Bridge\Symfony\Bundle\DependencyInjection;
 use Enqueue\SimpleBus\Bridge\Symfony\Bundle\DependencyInjection\EnqueueSimpleBusExtension;
 use Enqueue\SimpleBus\Bridge\Symfony\Serializer\EnvelopeNormalizer;
 use Enqueue\SimpleBus\Bridge\Symfony\Serializer\ObjectSerializer as SymfonyObjectSerializer;
+use Enqueue\SimpleBus\Consumption\Extension\LongRunningExtension;
 use Enqueue\SimpleBus\Routing\FixedQueueNameResolver;
 use Enqueue\SimpleBus\Routing\MappedQueueNameResolver;
 use Enqueue\SimpleBus\SimpleBusProcessor;
@@ -180,6 +181,27 @@ class EnqueueSimpleBusExtensionTest extends AbstractExtensionTestCase
             'BarClass' => 'bar',
         ]);
         $this->assertContainerBuilderHasServiceDefinitionWithArgument('enqueue.simple_bus.events_queue_resolver', 1, 'domain_events');
+    }
+
+    /**
+     * @test
+     */
+    public function it_registers_long_running_extension()
+    {
+        $this->container->setParameter('kernel.bundles', [
+            'SimpleBusAsynchronousBundle' => true,
+            'LongRunningBundle' => true,
+        ]);
+
+        $this->load();
+
+        $this->assertContainerBuilderHasService(LongRunningExtension::class);
+        $this->assertContainerBuilderHasServiceDefinitionWithTag(LongRunningExtension::class, 'enqueue.consumption.extension', ['priority' => -999]);
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
+            LongRunningExtension::class,
+            0,
+            new Reference('long_running.delegating_cleaner')
+        );
     }
 
     protected function getContainerExtensions(): array

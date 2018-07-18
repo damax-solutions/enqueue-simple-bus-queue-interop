@@ -15,8 +15,10 @@
     "simple-bus/asynchronous": "^3.0"
   },
   "require-dev": {
+    "enqueue/enqueue": "^0.8.29",
     "enqueue/null": "^0.8.24",
     "friendsofphp/php-cs-fixer": "^2.12",
+    "long-running/long-running": "^0.2.0",
     "matthiasnoback/symfony-dependency-injection-test": "^3.0",
     "php-coveralls/php-coveralls": "^2.1",
     "symfony/framework-bundle": "^4.1",

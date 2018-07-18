@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "52e1db66582b1df4ec07a25d74f880c5",
+    "content-hash": "35dbba26f2ee602cc269ffd4a949c41a",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -541,6 +541,93 @@
             "time": "2014-09-09T13:34:57+00:00"
         },
         {
+            "name": "enqueue/enqueue",
+            "version": "0.8.29",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-enqueue/enqueue.git",
+                "reference": "d637e699d15b5343daa5c16d3b5b3641bc502c0b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-enqueue/enqueue/zipball/d637e699d15b5343daa5c16d3b5b3641bc502c0b",
+                "reference": "d637e699d15b5343daa5c16d3b5b3641bc502c0b",
+                "shasum": ""
+            },
+            "require": {
+                "enqueue/null": "^0.8@dev",
+                "php": ">=5.6",
+                "psr/log": "^1",
+                "queue-interop/queue-interop": "^0.6@dev|^1.0.0-alpha1",
+                "ramsey/uuid": "^2|^3.5"
+            },
+            "require-dev": {
+                "empi89/php-amqp-stubs": "*@dev",
+                "enqueue/amqp-bunny": "^0.8@dev",
+                "enqueue/amqp-ext": "^0.8@dev",
+                "enqueue/amqp-lib": "^0.8@dev",
+                "enqueue/dbal": "^0.8@dev",
+                "enqueue/fs": "^0.8@dev",
+                "enqueue/gearman": "^0.8@dev",
+                "enqueue/gps": "^0.8@dev",
+                "enqueue/mongodb": "^0.8@dev",
+                "enqueue/pheanstalk": "^0.8@dev",
+                "enqueue/rdkafka": "^0.8@dev",
+                "enqueue/redis": "^0.8@dev",
+                "enqueue/simple-client": "^0.8@dev",
+                "enqueue/sqs": "^0.8@dev",
+                "enqueue/stomp": "^0.8@dev",
+                "enqueue/test": "^0.8@dev",
+                "phpunit/phpunit": "~5.5",
+                "symfony/config": "^2.8|^3|^4",
+                "symfony/console": "^2.8|^3|^4",
+                "symfony/dependency-injection": "^2.8|^3|^4",
+                "symfony/event-dispatcher": "^2.8|^3|^4",
+                "symfony/http-kernel": "^2.8|^3|^4"
+            },
+            "suggest": {
+                "enqueue/amqp-ext": "AMQP transport (based on php extension)",
+                "enqueue/dbal": "Doctrine DBAL transport",
+                "enqueue/fs": "Filesystem transport",
+                "enqueue/redis": "Redis transport",
+                "enqueue/sqs": "Amazon AWS SQS transport",
+                "enqueue/stomp": "STOMP transport",
+                "symfony/config": "^2.8|^3|^4",
+                "symfony/console": "^2.8|^3|^4 If you want to use li commands",
+                "symfony/dependency-injection": "^2.8|^3|^4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.8.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Enqueue\\": ""
+                },
+                "files": [
+                    "functions_include.php"
+                ],
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Message Queue Library",
+            "homepage": "https://enqueue.forma-pro.com/",
+            "keywords": [
+                "AMQP",
+                "messaging",
+                "queue",
+                "rabbitmq"
+            ],
+            "time": "2018-05-04T05:47:00+00:00"
+        },
+        {
             "name": "enqueue/null",
             "version": "0.8.24",
             "source": {
@@ -864,6 +951,58 @@
                 "url"
             ],
             "time": "2017-03-20T17:10:46+00:00"
+        },
+        {
+            "name": "long-running/long-running",
+            "version": "0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LongRunning/LongRunning.git",
+                "reference": "e7a173f79fa47e5b301638b243e2bd3a6c2847dd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/LongRunning/LongRunning/zipball/e7a173f79fa47e5b301638b243e2bd3a6c2847dd",
+                "reference": "e7a173f79fa47e5b301638b243e2bd3a6c2847dd",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6 || ^7.0"
+            },
+            "require-dev": {
+                "doctrine/doctrine-bundle": "~1.0",
+                "doctrine/orm": "~2.3",
+                "phpunit/phpunit": "~4.0",
+                "sentry/sentry-symfony": "~1.0",
+                "simple-bus/rabbitmq-bundle-bridge": "~2.1",
+                "symfony/framework-bundle": "~2.3 || ~3.0",
+                "symfony/monolog-bundle": "~2.3",
+                "symfony/swiftmailer-bundle": "~2.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "LongRunning\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matthias Noback",
+                    "email": "matthiasnoback@gmail.com",
+                    "homepage": "http://php-and-symfony.matthiasnoback.nl"
+                },
+                {
+                    "name": "Cliff Odijk",
+                    "email": "cliff@jcid.nl"
+                }
+            ],
+            "description": "Tools for working with long-running processes",
+            "homepage": "http://github.com/LongRunning/LongRunning",
+            "time": "2017-12-05T09:47:21+00:00"
         },
         {
             "name": "matthiasnoback/symfony-config-test",
@@ -1348,6 +1487,86 @@
                 "simple-cache"
             ],
             "time": "2017-10-23T01:57:42+00:00"
+        },
+        {
+            "name": "ramsey/uuid",
+            "version": "3.7.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ramsey/uuid.git",
+                "reference": "44abcdad877d9a46685a3a4d221e3b2c4b87cb76"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/44abcdad877d9a46685a3a4d221e3b2c4b87cb76",
+                "reference": "44abcdad877d9a46685a3a4d221e3b2c4b87cb76",
+                "shasum": ""
+            },
+            "require": {
+                "paragonie/random_compat": "^1.0|^2.0",
+                "php": "^5.4 || ^7.0"
+            },
+            "replace": {
+                "rhumsaa/uuid": "self.version"
+            },
+            "require-dev": {
+                "codeception/aspect-mock": "^1.0 | ~2.0.0",
+                "doctrine/annotations": "~1.2.0",
+                "goaop/framework": "1.0.0-alpha.2 | ^1.0 | ^2.1",
+                "ircmaxell/random-lib": "^1.1",
+                "jakub-onderka/php-parallel-lint": "^0.9.0",
+                "mockery/mockery": "^0.9.9",
+                "moontoast/math": "^1.1",
+                "php-mock/php-mock-phpunit": "^0.3|^1.1",
+                "phpunit/phpunit": "^4.7|^5.0",
+                "squizlabs/php_codesniffer": "^2.3"
+            },
+            "suggest": {
+                "ext-libsodium": "Provides the PECL libsodium extension for use with the SodiumRandomGenerator",
+                "ext-uuid": "Provides the PECL UUID extension for use with the PeclUuidTimeGenerator and PeclUuidRandomGenerator",
+                "ircmaxell/random-lib": "Provides RandomLib for use with the RandomLibAdapter",
+                "moontoast/math": "Provides support for converting UUID to 128-bit integer (in string form).",
+                "ramsey/uuid-console": "A console application for generating UUIDs with ramsey/uuid",
+                "ramsey/uuid-doctrine": "Allows the use of Ramsey\\Uuid\\Uuid as Doctrine field type."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ramsey\\Uuid\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marijn Huizendveld",
+                    "email": "marijn.huizendveld@gmail.com"
+                },
+                {
+                    "name": "Thibaud Fabre",
+                    "email": "thibaud@aztech.io"
+                },
+                {
+                    "name": "Ben Ramsey",
+                    "email": "ben@benramsey.com",
+                    "homepage": "https://benramsey.com"
+                }
+            ],
+            "description": "Formerly rhumsaa/uuid. A PHP 5.4+ library for generating RFC 4122 version 1, 3, 4, and 5 universally unique identifiers (UUID).",
+            "homepage": "https://github.com/ramsey/uuid",
+            "keywords": [
+                "guid",
+                "identifier",
+                "uuid"
+            ],
+            "time": "2018-01-20T00:28:24+00:00"
         },
         {
             "name": "symfony/cache",

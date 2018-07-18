@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Enqueue\SimpleBus\Bridge\Symfony\Bundle\DependencyInjection;
 
+use Enqueue\SimpleBus\Consumption\Extension\LongRunningExtension;
 use Enqueue\SimpleBus\Routing\FixedQueueNameResolver;
 use Enqueue\SimpleBus\Routing\MappedQueueNameResolver;
 use Enqueue\SimpleBus\SimpleBusProcessor;
@@ -67,6 +68,16 @@ class EnqueueSimpleBusExtension extends ConfigurableExtension implements Prepend
 
         if ($config['events']['enabled']) {
             $this->configureQueue(Configuration::TYPE_EVENTS, $config['events'], $container);
+        }
+
+        $bundles = $container->getParameter('kernel.bundles');
+
+        if (isset($bundles['LongRunningBundle'])) {
+            $container
+                ->register(LongRunningExtension::class)
+                ->addArgument(new Reference('long_running.delegating_cleaner'))
+                ->addTag('enqueue.consumption.extension', ['priority' => -999])
+            ;
         }
     }
 
