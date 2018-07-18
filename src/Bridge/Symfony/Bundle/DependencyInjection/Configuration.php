@@ -22,6 +22,11 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->append($this->messagesNode(self::TYPE_COMMANDS))
                 ->append($this->messagesNode(self::TYPE_EVENTS))
+
+                ->scalarNode('processor_service_id')
+                    ->cannotBeEmpty()
+                    ->defaultValue('enqueue.simple_bus.processor')
+                ->end()
             ->end()
         ;
 

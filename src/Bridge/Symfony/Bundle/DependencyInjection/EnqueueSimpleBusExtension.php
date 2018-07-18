@@ -6,6 +6,7 @@ namespace Enqueue\SimpleBus\Bridge\Symfony\Bundle\DependencyInjection;
 
 use Enqueue\SimpleBus\Routing\FixedQueueNameResolver;
 use Enqueue\SimpleBus\Routing\MappedQueueNameResolver;
+use Enqueue\SimpleBus\SimpleBusProcessor;
 use Enqueue\SimpleBus\SimpleBusPublisher;
 use LogicException;
 use SimpleBus\Serialization\Envelope\Serializer\MessageInEnvelopeSerializer;
@@ -66,6 +67,12 @@ class EnqueueSimpleBusExtension extends ConfigurableExtension implements Prepend
         if ($config['events']['enabled']) {
             $this->configurePublisher(Configuration::TYPE_EVENTS, $config['events'], $container);
         }
+
+        $container
+            ->autowire($config['processor_service_id'])
+            ->setClass(SimpleBusProcessor::class)
+            ->setPublic(true)
+        ;
     }
 
     private function configurePublisher(string $type, array $config, ContainerBuilder $container): self

@@ -7,8 +7,10 @@ namespace Enqueue\SimpleBus\Tests;
 use Enqueue\Null\NullContext;
 use Enqueue\Null\NullMessage;
 use Enqueue\SimpleBus\SimpleBusProcessor;
+use Interop\Queue\InvalidMessageException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use SimpleBus\Asynchronous\Consumer\SerializedEnvelopeConsumer;
 
 class SimpleBusProcessorTest extends TestCase
@@ -40,6 +42,38 @@ class SimpleBusProcessorTest extends TestCase
             ->with('__message__')
         ;
 
-        $this->assertEquals('enqueue.ack', $this->processor->process(new NullMessage('__message__'), new NullContext()));
+        $result = $this->processor->process(new NullMessage('__message__'), new NullContext());
+
+        $this->assertEquals('enqueue.ack', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function it_rejects_message()
+    {
+        $this->consumer
+            ->method('consume')
+            ->willThrowException(new InvalidMessageException())
+        ;
+
+        $result = $this->processor->process(new NullMessage('__message__'), new NullContext());
+
+        $this->assertEquals('enqueue.reject', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function it_requeues_message()
+    {
+        $this->consumer
+            ->method('consume')
+            ->willThrowException(new RuntimeException())
+        ;
+
+        $result = $this->processor->process(new NullMessage('__message__'), new NullContext());
+
+        $this->assertEquals('enqueue.requeue', $result);
     }
 }

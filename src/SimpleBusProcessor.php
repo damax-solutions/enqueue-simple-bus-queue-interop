@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Enqueue\SimpleBus;
 
+use Interop\Queue\InvalidMessageException;
 use Interop\Queue\PsrContext;
 use Interop\Queue\PsrMessage;
 use Interop\Queue\PsrProcessor;
 use SimpleBus\Asynchronous\Consumer\SerializedEnvelopeConsumer;
+use Throwable;
 
 class SimpleBusProcessor implements PsrProcessor
 {
@@ -20,8 +22,16 @@ class SimpleBusProcessor implements PsrProcessor
 
     public function process(PsrMessage $message, PsrContext $context)
     {
-        $this->consumer->consume($message->getBody());
+        try {
+            $this->consumer->consume($message->getBody());
 
-        return self::ACK;
+            $result = self::ACK;
+        } catch (InvalidMessageException $e) {
+            $result = self::REJECT; // Reject invalid messages.
+        } catch (Throwable $e) {
+            $result = self::REQUEUE; // Do not loose messages when problem occurs e.g. for Redis transport.
+        }
+
+        return $result;
     }
 }

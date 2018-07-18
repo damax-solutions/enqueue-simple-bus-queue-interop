@@ -33,6 +33,7 @@ class ConfigurationTest extends TestCase
                 'default_queue' => 'asynchronous_events',
                 'queue_map' => [],
             ],
+            'processor_service_id' => 'enqueue.simple_bus.processor',
         ]);
     }
 
@@ -168,6 +169,16 @@ class ConfigurationTest extends TestCase
                 'queue_map' => [],
             ],
         ], 'events');
+    }
+
+    /**
+     * @test
+     */
+    public function it_configures_processor_service()
+    {
+        $config = ['processor_service_id' => 'foo_service'];
+
+        $this->assertProcessedConfigurationEquals([$config], ['processor_service_id' => 'foo_service'], 'processor_service_id');
     }
 
     protected function getConfiguration(): ConfigurationInterface

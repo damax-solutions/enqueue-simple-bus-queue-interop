@@ -9,6 +9,7 @@ use Enqueue\SimpleBus\Bridge\Symfony\Serializer\EnvelopeNormalizer;
 use Enqueue\SimpleBus\Bridge\Symfony\Serializer\ObjectSerializer as SymfonyObjectSerializer;
 use Enqueue\SimpleBus\Routing\FixedQueueNameResolver;
 use Enqueue\SimpleBus\Routing\MappedQueueNameResolver;
+use Enqueue\SimpleBus\SimpleBusProcessor;
 use Enqueue\SimpleBus\SimpleBusPublisher;
 use LogicException;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
@@ -51,6 +52,16 @@ class EnqueueSimpleBusExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasAlias(MessageInEnvelopeSerializer::class, 'simple_bus.asynchronous.message_serializer');
         $this->assertContainerBuilderHasService(EnvelopeNormalizer::class);
         $this->assertContainerBuilderHasServiceDefinitionWithTag(EnvelopeNormalizer::class, 'serializer.normalizer');
+    }
+
+    /**
+     * @test
+     */
+    public function it_registers_processor_service()
+    {
+        $this->load();
+
+        $this->assertContainerBuilderHasService('enqueue.simple_bus.processor', SimpleBusProcessor::class);
     }
 
     /**
