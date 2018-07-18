@@ -50,6 +50,7 @@ class EnqueueSimpleBusExtension extends ConfigurableExtension implements Prepend
             $container->prependExtensionConfig('simple_bus_asynchronous', [
                 'events' => [
                     'publisher_service_id' => 'enqueue.simple_bus.events_publisher',
+                    'strategy' => 'predefined',
                 ],
             ]);
         }
