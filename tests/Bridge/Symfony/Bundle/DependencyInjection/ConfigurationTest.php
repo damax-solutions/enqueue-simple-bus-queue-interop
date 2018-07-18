@@ -21,6 +21,12 @@ class ConfigurationTest extends TestCase
         $config = [];
 
         $this->assertProcessedConfigurationEquals([$config], [
+            'commands' => [
+                'enabled' => false,
+                'transport_name' => 'default',
+                'default_queue' => 'asynchronous_commands',
+                'queue_map' => [],
+            ],
             'events' => [
                 'enabled' => false,
                 'transport_name' => 'default',
@@ -28,6 +34,25 @@ class ConfigurationTest extends TestCase
                 'queue_map' => [],
             ],
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_processes_simplified_commands_config()
+    {
+        $config = [
+            'commands' => 'async_commands',
+        ];
+
+        $this->assertProcessedConfigurationEquals([$config], [
+            'commands' => [
+                'enabled' => true,
+                'transport_name' => 'default',
+                'default_queue' => 'async_commands',
+                'queue_map' => [],
+            ],
+        ], 'commands');
     }
 
     /**
@@ -47,6 +72,33 @@ class ConfigurationTest extends TestCase
                 'queue_map' => [],
             ],
         ], 'events');
+    }
+
+    /**
+     * @test
+     */
+    public function it_configures_commands_map()
+    {
+        $config = [
+            'commands' => [
+                'queue_map' => [
+                    'FooClass' => 'foo',
+                    'BooClass' => 'boo',
+                ],
+            ],
+        ];
+
+        $this->assertProcessedConfigurationEquals([$config], [
+            'commands' => [
+                'enabled' => true,
+                'transport_name' => 'default',
+                'default_queue' => 'asynchronous_commands',
+                'queue_map' => [
+                    'FooClass' => 'foo',
+                    'BooClass' => 'boo',
+                ],
+            ],
+        ], 'commands');
     }
 
     /**
@@ -74,6 +126,27 @@ class ConfigurationTest extends TestCase
                 ],
             ],
         ], 'events');
+    }
+
+    /**
+     * @test
+     */
+    public function it_configures_commands_transport_name()
+    {
+        $config = [
+            'commands' => [
+                'transport_name' => 'redis',
+            ],
+        ];
+
+        $this->assertProcessedConfigurationEquals([$config], [
+            'commands' => [
+                'enabled' => true,
+                'transport_name' => 'redis',
+                'default_queue' => 'asynchronous_commands',
+                'queue_map' => [],
+            ],
+        ], 'commands');
     }
 
     /**

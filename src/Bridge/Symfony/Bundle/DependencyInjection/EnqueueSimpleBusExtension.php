@@ -31,6 +31,17 @@ class EnqueueSimpleBusExtension extends ConfigurableExtension implements Prepend
             'object_serializer_service_id' => ObjectSerializer::class,
         ]);
 
+        // Enable async commands.
+        if ($merged['commands']['enabled']) {
+            $this->requireBundle('SimpleBusCommandBusBundle', $container);
+
+            $container->prependExtensionConfig('simple_bus_asynchronous', [
+                'commands' => [
+                    'publisher_service_id' => 'enqueue.simple_bus.commands_publisher',
+                ],
+            ]);
+        }
+
         // Enable async events.
         if ($merged['events']['enabled']) {
             $this->requireBundle('SimpleBusEventBusBundle', $container);
@@ -48,20 +59,12 @@ class EnqueueSimpleBusExtension extends ConfigurableExtension implements Prepend
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');
 
+        if ($config['commands']['enabled']) {
+            $this->configurePublisher(Configuration::TYPE_COMMANDS, $config['commands'], $container);
+        }
+
         if ($config['events']['enabled']) {
             $this->configurePublisher(Configuration::TYPE_EVENTS, $config['events'], $container);
-        }
-    }
-
-    /**
-     * @throws LogicException
-     */
-    private function requireBundle(string $bundleName, ContainerBuilder $container)
-    {
-        $bundles = $container->getParameter('kernel.bundles');
-
-        if (!isset($bundles[$bundleName])) {
-            throw new LogicException(sprintf('You need to enable "%s".', $bundleName));
         }
     }
 
@@ -92,5 +95,17 @@ class EnqueueSimpleBusExtension extends ConfigurableExtension implements Prepend
         }
 
         return $this;
+    }
+
+    /**
+     * @throws LogicException
+     */
+    private function requireBundle(string $bundleName, ContainerBuilder $container)
+    {
+        $bundles = $container->getParameter('kernel.bundles');
+
+        if (!isset($bundles[$bundleName])) {
+            throw new LogicException(sprintf('You need to enable "%s".', $bundleName));
+        }
     }
 }

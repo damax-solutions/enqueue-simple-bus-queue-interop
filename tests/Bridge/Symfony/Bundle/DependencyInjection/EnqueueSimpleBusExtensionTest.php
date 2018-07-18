@@ -56,6 +56,21 @@ class EnqueueSimpleBusExtensionTest extends AbstractExtensionTestCase
     /**
      * @test
      */
+    public function it_registers_publisher_for_commands()
+    {
+        $this->load([
+            'commands' => null,
+        ]);
+
+        $this->assertContainerBuilderHasService('enqueue.simple_bus.commands_publisher', SimpleBusPublisher::class);
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument('enqueue.simple_bus.commands_publisher', 0, new Reference(MessageInEnvelopeSerializer::class));
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument('enqueue.simple_bus.commands_publisher', 1, new Reference('enqueue.simple_bus.commands_queue_resolver'));
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument('enqueue.simple_bus.commands_publisher', 2, new Reference('enqueue.transport.default.context'));
+    }
+
+    /**
+     * @test
+     */
     public function it_registers_publisher_for_events()
     {
         $this->load([
@@ -71,12 +86,44 @@ class EnqueueSimpleBusExtensionTest extends AbstractExtensionTestCase
     /**
      * @test
      */
+    public function it_registers_fixed_queue_name_resolver_for_commands()
+    {
+        $this->load(['commands' => 'async_commands']);
+
+        $this->assertContainerBuilderHasService('enqueue.simple_bus.commands_queue_resolver', FixedQueueNameResolver::class);
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument('enqueue.simple_bus.commands_queue_resolver', 0, 'async_commands');
+    }
+
+    /**
+     * @test
+     */
     public function it_registers_fixed_queue_name_resolver_for_events()
     {
         $this->load(['events' => 'domain_events']);
 
         $this->assertContainerBuilderHasService('enqueue.simple_bus.events_queue_resolver', FixedQueueNameResolver::class);
         $this->assertContainerBuilderHasServiceDefinitionWithArgument('enqueue.simple_bus.events_queue_resolver', 0, 'domain_events');
+    }
+
+    /**
+     * @test
+     */
+    public function it_registers_mapped_queue_name_resolver_for_commands()
+    {
+        $this->load(['commands' => [
+            'default_queue' => 'async_commands',
+            'queue_map' => [
+                'FooClass' => 'foo',
+                'BarClass' => 'bar',
+            ],
+        ]]);
+
+        $this->assertContainerBuilderHasService('enqueue.simple_bus.commands_queue_resolver', MappedQueueNameResolver::class);
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument('enqueue.simple_bus.commands_queue_resolver', 0, [
+            'FooClass' => 'foo',
+            'BarClass' => 'bar',
+        ]);
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument('enqueue.simple_bus.commands_queue_resolver', 1, 'async_commands');
     }
 
     /**

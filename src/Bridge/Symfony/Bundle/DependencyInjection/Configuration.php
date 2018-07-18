@@ -10,6 +10,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
+    public const TYPE_COMMANDS = 'commands';
     public const TYPE_EVENTS = 'events';
 
     public function getConfigTreeBuilder(): TreeBuilder
@@ -19,6 +20,7 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('enqueue_simple_bus');
         $rootNode
             ->children()
+                ->append($this->messagesNode(self::TYPE_COMMANDS))
                 ->append($this->messagesNode(self::TYPE_EVENTS))
             ->end()
         ;
