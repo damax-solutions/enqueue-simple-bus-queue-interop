@@ -1,5 +1,5 @@
 {
-  "name": "enqueue/simple-bus-queue-interop",
+  "name": "damax/enqueue-simple-bus-queue-interop",
   "type": "library",
   "description": "SimpleBus integration with Enqueue library via Queue Interop.",
   "license": "MIT",
