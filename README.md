@@ -6,8 +6,6 @@
 
 ## Documentation
 
-This integration is __work in progress__.
-
 Topics:
 
 - [Development](doc/development.md)
