@@ -57,16 +57,6 @@ class EnqueueSimpleBusExtensionTest extends AbstractExtensionTestCase
     /**
      * @test
      */
-    public function it_registers_processor_service()
-    {
-        $this->load();
-
-        $this->assertContainerBuilderHasService('enqueue.simple_bus.processor', SimpleBusProcessor::class);
-    }
-
-    /**
-     * @test
-     */
     public function it_registers_publisher_for_commands()
     {
         $this->load([
@@ -92,6 +82,40 @@ class EnqueueSimpleBusExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasServiceDefinitionWithArgument('enqueue.simple_bus.events_publisher', 0, new Reference(MessageInEnvelopeSerializer::class));
         $this->assertContainerBuilderHasServiceDefinitionWithArgument('enqueue.simple_bus.events_publisher', 1, new Reference('enqueue.simple_bus.events_queue_resolver'));
         $this->assertContainerBuilderHasServiceDefinitionWithArgument('enqueue.simple_bus.events_publisher', 2, new Reference('enqueue.transport.default.context'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_registers_processor_for_commands()
+    {
+        $this->load([
+            'commands' => null,
+        ]);
+
+        $this->assertContainerBuilderHasService('enqueue.simple_bus.commands_processor', SimpleBusProcessor::class);
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
+            'enqueue.simple_bus.commands_processor',
+            0,
+            new Reference('simple_bus.asynchronous.standard_serialized_command_envelope_consumer')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_registers_processor_for_events()
+    {
+        $this->load([
+            'events' => null,
+        ]);
+
+        $this->assertContainerBuilderHasService('enqueue.simple_bus.events_processor', SimpleBusProcessor::class);
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
+            'enqueue.simple_bus.events_processor',
+            0,
+            new Reference('simple_bus.asynchronous.standard_serialized_event_envelope_consumer')
+        );
     }
 
     /**

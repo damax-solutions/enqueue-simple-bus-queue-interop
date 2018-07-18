@@ -26,14 +26,15 @@ class ConfigurationTest extends TestCase
                 'transport_name' => 'default',
                 'default_queue' => 'asynchronous_commands',
                 'queue_map' => [],
+                'processor_service_id' => 'enqueue.simple_bus.commands_processor',
             ],
             'events' => [
                 'enabled' => false,
                 'transport_name' => 'default',
                 'default_queue' => 'asynchronous_events',
                 'queue_map' => [],
+                'processor_service_id' => 'enqueue.simple_bus.events_processor',
             ],
-            'processor_service_id' => 'enqueue.simple_bus.processor',
         ]);
     }
 
@@ -52,6 +53,7 @@ class ConfigurationTest extends TestCase
                 'transport_name' => 'default',
                 'default_queue' => 'async_commands',
                 'queue_map' => [],
+                'processor_service_id' => 'enqueue.simple_bus.commands_processor',
             ],
         ], 'commands');
     }
@@ -71,6 +73,7 @@ class ConfigurationTest extends TestCase
                 'transport_name' => 'default',
                 'default_queue' => 'domain_events',
                 'queue_map' => [],
+                'processor_service_id' => 'enqueue.simple_bus.events_processor',
             ],
         ], 'events');
     }
@@ -98,6 +101,7 @@ class ConfigurationTest extends TestCase
                     'FooClass' => 'foo',
                     'BooClass' => 'boo',
                 ],
+                'processor_service_id' => 'enqueue.simple_bus.commands_processor',
             ],
         ], 'commands');
     }
@@ -125,6 +129,7 @@ class ConfigurationTest extends TestCase
                     'FooClass' => 'foo',
                     'BooClass' => 'boo',
                 ],
+                'processor_service_id' => 'enqueue.simple_bus.events_processor',
             ],
         ], 'events');
     }
@@ -132,11 +137,12 @@ class ConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function it_configures_commands_transport_name()
+    public function it_configures_commands_transport_and_processor()
     {
         $config = [
             'commands' => [
                 'transport_name' => 'redis',
+                'processor_service_id' => 'commands_processor',
             ],
         ];
 
@@ -146,6 +152,7 @@ class ConfigurationTest extends TestCase
                 'transport_name' => 'redis',
                 'default_queue' => 'asynchronous_commands',
                 'queue_map' => [],
+                'processor_service_id' => 'commands_processor',
             ],
         ], 'commands');
     }
@@ -153,11 +160,12 @@ class ConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function it_configures_events_transport_name()
+    public function it_configures_events_transport_and_processor()
     {
         $config = [
             'events' => [
                 'transport_name' => 'redis',
+                'processor_service_id' => 'events_processor',
             ],
         ];
 
@@ -167,18 +175,9 @@ class ConfigurationTest extends TestCase
                 'transport_name' => 'redis',
                 'default_queue' => 'asynchronous_events',
                 'queue_map' => [],
+                'processor_service_id' => 'events_processor',
             ],
         ], 'events');
-    }
-
-    /**
-     * @test
-     */
-    public function it_configures_processor_service()
-    {
-        $config = ['processor_service_id' => 'foo_service'];
-
-        $this->assertProcessedConfigurationEquals([$config], ['processor_service_id' => 'foo_service'], 'processor_service_id');
     }
 
     protected function getConfiguration(): ConfigurationInterface

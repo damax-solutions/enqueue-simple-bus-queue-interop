@@ -61,31 +61,34 @@ class EnqueueSimpleBusExtension extends ConfigurableExtension implements Prepend
         $loader->load('services.xml');
 
         if ($config['commands']['enabled']) {
-            $this->configurePublisher(Configuration::TYPE_COMMANDS, $config['commands'], $container);
+            $this->configureQueue(Configuration::TYPE_COMMANDS, $config['commands'], $container);
         }
 
         if ($config['events']['enabled']) {
-            $this->configurePublisher(Configuration::TYPE_EVENTS, $config['events'], $container);
+            $this->configureQueue(Configuration::TYPE_EVENTS, $config['events'], $container);
         }
-
-        $container
-            ->autowire($config['processor_service_id'])
-            ->setClass(SimpleBusProcessor::class)
-            ->setPublic(true)
-        ;
     }
 
-    private function configurePublisher(string $type, array $config, ContainerBuilder $container): self
+    private function configureQueue(string $type, array $config, ContainerBuilder $container): self
     {
         $queueResolverId = sprintf('enqueue.simple_bus.%s_queue_resolver', $type);
         $publisherId = sprintf('enqueue.simple_bus.%s_publisher', $type);
         $transportId = sprintf('enqueue.transport.%s.context', $config['transport_name']);
+        $consumerId = sprintf('simple_bus.asynchronous.standard_serialized_%s_envelope_consumer', rtrim($type, 's'));
 
+        // Register publisher.
         $container
             ->register($publisherId, SimpleBusPublisher::class)
             ->addArgument(new Reference(MessageInEnvelopeSerializer::class))
             ->addArgument(new Reference($queueResolverId))
             ->addArgument(new Reference($transportId))
+        ;
+
+        // Register processor.
+        $container
+            ->register($config['processor_service_id'], SimpleBusProcessor::class)
+            ->addArgument(new Reference($consumerId))
+            ->setPublic(true)
         ;
 
         if (count($config['queue_map'])) {

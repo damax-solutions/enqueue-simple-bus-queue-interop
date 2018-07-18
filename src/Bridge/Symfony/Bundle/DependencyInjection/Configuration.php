@@ -22,11 +22,6 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->append($this->messagesNode(self::TYPE_COMMANDS))
                 ->append($this->messagesNode(self::TYPE_EVENTS))
-
-                ->scalarNode('processor_service_id')
-                    ->cannotBeEmpty()
-                    ->defaultValue('enqueue.simple_bus.processor')
-                ->end()
             ->end()
         ;
 
@@ -51,6 +46,10 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('default_queue')
                     ->cannotBeEmpty()
                     ->defaultValue(sprintf('asynchronous_%s', $type))
+                ->end()
+                ->scalarNode('processor_service_id')
+                    ->cannotBeEmpty()
+                    ->defaultValue(sprintf('enqueue.simple_bus.%s_processor', $type))
                 ->end()
                 ->arrayNode('queue_map')
                     ->requiresAtLeastOneElement()
