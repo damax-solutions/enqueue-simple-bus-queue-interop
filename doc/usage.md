@@ -4,7 +4,7 @@ This page refers to relevant documentation sections of [SimpleBus](http://docs.s
 
 ## SimpleBus
 
-To route messages via _queue-interop_ commands and events must be registered in container as __asynchronous__.
+To route messages via _queue-interop_ they must be registered in container as __asynchronous__.
 
 #### Commands
 

@@ -39,7 +39,7 @@ The console command for above config:
 ./bin/console enqueue:transport:consume commands_processor --queue=async_jobs
 ```
 
-It is possible to route messages to different queues. Could be useful for heavy lifting consumption processes. 
+It is possible to route messages to different queues. Could be useful for heavy consumption processes. 
 
 ```yaml
 enqueue_simple_bus:
