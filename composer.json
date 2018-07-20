@@ -1,7 +1,7 @@
 {
   "name": "damax/enqueue-simple-bus-queue-interop",
   "type": "library",
-  "description": "SimpleBus integration with Enqueue library via Queue Interop.",
+  "description": "SimpleBus integration with Queue Interop via Enqueue library.",
   "license": "MIT",
   "autoload": {
     "psr-4": { "Enqueue\\SimpleBus\\": "src/" }
