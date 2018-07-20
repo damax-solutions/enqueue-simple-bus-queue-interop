@@ -19,4 +19,5 @@ Topics:
 
 - [Installation](doc/installation.md)
 - [Configuration](doc/configuration.md)
+- [Usage](doc/usage.md)
 - [Development](doc/development.md)

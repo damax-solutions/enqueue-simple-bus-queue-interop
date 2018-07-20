@@ -91,3 +91,7 @@ For consumption `enqueue.simple_bus.events_processor` service is registered. Con
 ``` 
 
 You can customize default queue name, processor service id and configure events mapping to specific queues in the same way as for commands. 
+
+## Next
+
+Read next on [usage examples](usage.md).
