@@ -62,3 +62,33 @@ LongRunning\Bundle\LongRunningBundle\LongRunningBundle::class => ['all' => true]
 ```
 
 Don't worry too much about missing out some bundle. _EnqueueSimpleBusBundle_ will warn you about it.
+
+## Configuration
+
+_EnqueueBundle_ suggests the following config:
+
+```yaml
+enqueue:
+    transport:
+        default: '%env(ENQUEUE_DSN)%'
+    client: ~
+```
+
+In case of _Redis_ the value could be `ENQUEUE_DSN=redis://localhost:6379/0`.
+
+Commands and/or events are published through _SimpleBus_ i.e. _Enqueue_ client's features are not used. 
+Unless you want to explicitly publish messages through _Enqueue_ (without _SimpleBus_), the config could be trimmed down to the following:
+
+```yaml
+enqueue:
+    transport:
+        default: '%env(ENQUEUE_DSN)%'
+``` 
+
+Above will reduce the amount of registered services in dependency injection container.
+
+No other configuration is required. Asynchronous messages are turned off by default.
+
+## Next
+
+Read next how to enable and [configure](configuration.md) asynchronous commands and events.
