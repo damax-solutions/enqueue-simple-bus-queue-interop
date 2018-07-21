@@ -26,7 +26,6 @@ class EnqueueSimpleBusExtension extends ConfigurableExtension implements Prepend
         $this->requireBundle('SimpleBusAsynchronousBundle', $container);
 
         $config = $container->getExtensionConfig($this->getAlias());
-
         $merged = $this->processConfiguration($this->getConfiguration($config, $container), $config);
 
         // Common for all messages.
