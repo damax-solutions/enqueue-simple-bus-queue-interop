@@ -204,6 +204,79 @@ class EnqueueSimpleBusExtensionTest extends AbstractExtensionTestCase
         );
     }
 
+    /**
+     * @test
+     */
+    public function it_requires_simple_bus_command_bus_bundle()
+    {
+        $this->container->prependExtensionConfig('enqueue_simple_bus', ['commands' => null]);
+
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('You need to enable "SimpleBusCommandBusBundle".');
+
+        $this->load();
+    }
+
+    /**
+     * @test
+     */
+    public function it_configures_simple_bus_command_services()
+    {
+        $this->container->prependExtensionConfig('enqueue_simple_bus', ['commands' => null]);
+
+        $this->container->setParameter('kernel.bundles', [
+            'SimpleBusAsynchronousBundle' => true,
+            'SimpleBusCommandBusBundle' => true,
+        ]);
+
+        $this->load();
+
+        $config = [
+            'commands' => [
+                'publisher_service_id' => 'enqueue.simple_bus.commands_publisher',
+            ],
+        ];
+
+        $this->assertEquals($config, $this->container->getExtensionConfig('simple_bus_asynchronous')[0]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_requires_simple_bus_event_bus_bundle()
+    {
+        $this->container->prependExtensionConfig('enqueue_simple_bus', ['events' => null]);
+
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('You need to enable "SimpleBusEventBusBundle".');
+
+        $this->load();
+    }
+
+    /**
+     * @test
+     */
+    public function it_configures_simple_bus_event_services()
+    {
+        $this->container->prependExtensionConfig('enqueue_simple_bus', ['events' => null]);
+
+        $this->container->setParameter('kernel.bundles', [
+            'SimpleBusAsynchronousBundle' => true,
+            'SimpleBusEventBusBundle' => true,
+        ]);
+
+        $this->load();
+
+        $config = [
+            'events' => [
+                'publisher_service_id' => 'enqueue.simple_bus.events_publisher',
+                'strategy' => 'predefined',
+            ],
+        ];
+
+        $this->assertEquals($config, $this->container->getExtensionConfig('simple_bus_asynchronous')[0]);
+    }
+
     protected function getContainerExtensions(): array
     {
         return [
