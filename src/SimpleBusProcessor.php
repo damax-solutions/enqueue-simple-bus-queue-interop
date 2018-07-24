@@ -11,7 +11,7 @@ use Interop\Queue\PsrProcessor;
 use SimpleBus\Asynchronous\Consumer\SerializedEnvelopeConsumer;
 use Throwable;
 
-class SimpleBusProcessor implements PsrProcessor
+final class SimpleBusProcessor implements PsrProcessor
 {
     private $consumer;
 

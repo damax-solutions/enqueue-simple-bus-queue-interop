@@ -9,7 +9,7 @@ use SimpleBus\Asynchronous\Publisher\Publisher;
 use SimpleBus\Asynchronous\Routing\RoutingKeyResolver;
 use SimpleBus\Serialization\Envelope\Serializer\MessageInEnvelopeSerializer;
 
-class SimpleBusPublisher implements Publisher
+final class SimpleBusPublisher implements Publisher
 {
     private $serializer;
     private $queueResolver;
