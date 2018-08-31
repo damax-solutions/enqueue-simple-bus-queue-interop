@@ -4,6 +4,8 @@
 
 [SimpleBus](https://simplebus.io) integration with [Queue Interop](https://github.com/queue-interop/queue-interop) via [Enqueue](https://enqueue.forma-pro.com) library.
 
+Check out this [sample application](https://github.com/lakiboy/damax-common/tree/master/sample) how to implement async domain events.
+
 ## Features
 
 - Send asynchronous _SimpleBus_ commands or events with _queue-interop_.
