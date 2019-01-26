@@ -15,9 +15,9 @@ class Configuration implements ConfigurationInterface
 
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new TreeBuilder('enqueue_simple_bus');
 
-        $rootNode = $treeBuilder->root('enqueue_simple_bus');
+        $rootNode = $treeBuilder->getRootNode();
         $rootNode
             ->children()
                 ->append($this->messagesNode(self::TYPE_COMMANDS))

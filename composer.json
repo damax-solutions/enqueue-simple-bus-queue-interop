@@ -3,34 +3,32 @@
   "type": "library",
   "description": "SimpleBus integration with Queue Interop via Enqueue library.",
   "license": "MIT",
-  "autoload": {
-    "psr-4": { "Enqueue\\SimpleBus\\": "src/" }
-  },
-  "autoload-dev": {
-    "psr-4": { "Enqueue\\SimpleBus\\Tests\\": "tests/" }
-  },
   "require": {
     "php": "^7.1",
-    "queue-interop/queue-interop": "^0.6.1",
+    "queue-interop/queue-interop": "^0.8",
     "simple-bus/asynchronous": "^3.0"
   },
   "require-dev": {
-    "enqueue/enqueue": "^0.8.29",
-    "enqueue/null": "^0.8.24",
+    "enqueue/enqueue": "^0.9",
+    "enqueue/null": "^0.9",
     "friendsofphp/php-cs-fixer": "^2.12",
-    "long-running/long-running": "^0.2.0",
+    "long-running/long-running": "^0.3",
     "matthiasnoback/symfony-dependency-injection-test": "^3.0",
     "php-coveralls/php-coveralls": "^2.1",
     "symfony/framework-bundle": "^4.1",
     "symfony/phpunit-bridge": "^4.1",
     "symfony/serializer": "^4.1"
   },
+  "autoload": {
+    "psr-4": { "Enqueue\\SimpleBus\\": "src/" }
+  },
+  "autoload-dev": {
+    "psr-4": { "Enqueue\\SimpleBus\\Tests\\": "tests/" }
+  },
   "scripts": {
     "cs": "php-cs-fixer fix",
     "test": "simple-phpunit",
-    "test-cc": "./bin/phpunit-coverage",
-    "test-ci": "simple-phpunit --coverage-clover=build/logs/clover.xml",
-    "test-publish": "php-coveralls"
+    "test-cc": "phpdbg -qrr ./vendor/bin/simple-phpunit --coverage-html=build/phpunit"
   },
   "config": {
     "sort-packages": true

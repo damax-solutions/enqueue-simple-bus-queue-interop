@@ -22,4 +22,11 @@ Topics:
 - [Installation](doc/installation.md)
 - [Configuration](doc/configuration.md)
 - [Usage](doc/usage.md)
-- [Development](doc/development.md)
+
+## Contribute
+
+Install dependencies and run tests:
+
+```bash
+$ make
+```

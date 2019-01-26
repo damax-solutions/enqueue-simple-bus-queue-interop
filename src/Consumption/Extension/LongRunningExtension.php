@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace Enqueue\SimpleBus\Consumption\Extension;
 
-use Enqueue\Consumption\Context;
-use Enqueue\Consumption\EmptyExtensionTrait;
-use Enqueue\Consumption\ExtensionInterface;
+use Enqueue\Consumption\Context\PostMessageReceived;
+use Enqueue\Consumption\PostMessageReceivedExtensionInterface;
 use LongRunning\Core\Cleaner;
 
-final class LongRunningExtension implements ExtensionInterface
+final class LongRunningExtension implements PostMessageReceivedExtensionInterface
 {
-    use EmptyExtensionTrait;
-
     private $cleaner;
 
     public function __construct(Cleaner $cleaner)
@@ -20,7 +17,7 @@ final class LongRunningExtension implements ExtensionInterface
         $this->cleaner = $cleaner;
     }
 
-    public function onPostReceived(Context $context): void
+    public function onPostMessageReceived(PostMessageReceived $context): void
     {
         $this->cleaner->cleanUp();
     }

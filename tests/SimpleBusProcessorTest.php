@@ -7,7 +7,7 @@ namespace Enqueue\SimpleBus\Tests;
 use Enqueue\Null\NullContext;
 use Enqueue\Null\NullMessage;
 use Enqueue\SimpleBus\SimpleBusProcessor;
-use Interop\Queue\InvalidMessageException;
+use Interop\Queue\Exception\InvalidMessageException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
