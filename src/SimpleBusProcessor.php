@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Enqueue\SimpleBus;
 
-use Interop\Queue\InvalidMessageException;
-use Interop\Queue\PsrContext;
-use Interop\Queue\PsrMessage;
-use Interop\Queue\PsrProcessor;
+use Interop\Queue\Context;
+use Interop\Queue\Exception\InvalidMessageException;
+use Interop\Queue\Message;
+use Interop\Queue\Processor;
 use SimpleBus\Asynchronous\Consumer\SerializedEnvelopeConsumer;
 use Throwable;
 
-final class SimpleBusProcessor implements PsrProcessor
+final class SimpleBusProcessor implements Processor
 {
     private $consumer;
 
@@ -20,7 +20,7 @@ final class SimpleBusProcessor implements PsrProcessor
         $this->consumer = $consumer;
     }
 
-    public function process(PsrMessage $message, PsrContext $context)
+    public function process(Message $message, Context $context)
     {
         try {
             $this->consumer->consume($message->getBody());

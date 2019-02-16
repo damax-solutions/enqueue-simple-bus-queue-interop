@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Enqueue\SimpleBus;
 
-use Interop\Queue\PsrContext;
+use Interop\Queue\Context;
 use SimpleBus\Asynchronous\Publisher\Publisher;
 use SimpleBus\Asynchronous\Routing\RoutingKeyResolver;
 use SimpleBus\Serialization\Envelope\Serializer\MessageInEnvelopeSerializer;
@@ -15,7 +15,7 @@ final class SimpleBusPublisher implements Publisher
     private $queueResolver;
     private $context;
 
-    public function __construct(MessageInEnvelopeSerializer $serializer, RoutingKeyResolver $queueResolver, PsrContext $context)
+    public function __construct(MessageInEnvelopeSerializer $serializer, RoutingKeyResolver $queueResolver, Context $context)
     {
         $this->serializer = $serializer;
         $this->queueResolver = $queueResolver;

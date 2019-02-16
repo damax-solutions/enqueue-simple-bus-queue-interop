@@ -48,7 +48,3 @@ autorestart = true
 stderr_logfile = /var/log/supervisor/domain_events-stderr.log
 stdout_logfile = /var/log/supervisor/domain_events-stdout.log
 ```
-
-## Next
-
-If you wish to contribute take a look how to [run the code locally](development.md) in Docker.
